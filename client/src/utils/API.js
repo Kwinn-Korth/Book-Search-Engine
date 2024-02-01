@@ -1,57 +1,41 @@
-// route to get logged in user's info (needs the token)
+// API.js
+import { useQuery, useMutation } from '@apollo/client';
+import * as queries from './queries';
+import * as mutations from './mutations';
+
 export const getMe = (token) => {
-  return fetch('/api/users/me', {
+  return useQuery(queries.GET_ME, {
     headers: {
       'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
     },
+  });
+};
+
+export const searchBooks = (query) => {
+  return useQuery(queries.SEARCH_BOOKS, {
+    variables: { query },
   });
 };
 
 export const createUser = (userData) => {
-  return fetch('/api/users', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
+  return useMutation(mutations.CREATE_USER, {
+    variables: { userData },
   });
 };
 
 export const loginUser = (userData) => {
-  return fetch('/api/users/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(userData),
+  return useMutation(mutations.LOGIN_USER, {
+    variables: { userData },
   });
 };
 
-// save book data for a logged in user
 export const saveBook = (bookData, token) => {
-  return fetch('/api/users', {
-    method: 'PUT',
+  return useMutation(mutations.SAVE_BOOK, {
+    variables: { bookData },
     headers: {
       'Content-Type': 'application/json',
       authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(bookData),
   });
-};
-
-// remove saved book data for a logged in user
-export const deleteBook = (bookId, token) => {
-  return fetch(`/api/users/books/${bookId}`, {
-    method: 'DELETE',
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
-};
-
-// make a search to google books api
-// https://www.googleapis.com/books/v1/volumes?q=harry+potter
-export const searchGoogleBooks = (query) => {
-  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
 };
