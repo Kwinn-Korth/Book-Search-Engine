@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
@@ -12,11 +12,11 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-         path: 'search', 
+         path: '/search', 
          element: <SearchBooks /> 
       },
       { 
-        path: 'saved', 
+        path: '/saved', 
         element: <SavedBooks /> 
       }
     ]
