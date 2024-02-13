@@ -51,7 +51,7 @@ const resolvers = {
                 console.log(error);
                 throw new Error ('Could not save book');
             }
-        };
+        },
 
         removeBook: async (parent, { bookId }, context) => {
             const updatedUser = await User.findOneAndUpdate(
