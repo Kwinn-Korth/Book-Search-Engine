@@ -31,25 +31,11 @@ const SignupForm = () => {
     }
 
     try {
-      // const response = await createUser(userFormData);
-      const response = await addUser({
-        variables: {
-          username: userFormData.username,
-          email: userFormData.email,
-          password: userFormData.password
-        }
-      })
+      const { data } = await addUser({
+        variables: { ...userFormData }
+      });
 
-      if (!response) {
-        throw new Error('something went wrong!');
-      }
-
-// Use Use mutation hook to pass in variables from mutations.js (import function from apollo hook and mutations/queries.js)
-
-
-      const { token, user } = response.data.addUser;
-      console.log(user);
-      Auth.login(token);
+      Auth.login(data.addUser.token)
     } catch (err) {
       console.error(err);
       setShowAlert(true);
